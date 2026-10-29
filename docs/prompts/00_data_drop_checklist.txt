@@ -1,0 +1,12 @@
+Put these on Google Drive under FoodPriceWatch/inbox/ before the setup session. The agent copies them into data/raw/ and hashes them; it never downloads them itself.
+
+A. The 32 project files and the two docs (DATA_CARD.md, SOURCES_2026-10-26.md) -> inbox/project/
+B. External price data you already hold -> inbox/external/
+   wfp/           wfp_food_prices_bgd.csv, wfp_markets_bgd.csv
+   agripricebd/   chickpea.csv, cucumber.csv, garlic.csv, green_chilli.csv, sweet_pumpkin.csv
+   pinksheet/     CMO-Historical-Data-Monthly.xlsx
+   ohlc/          Food Commodity Price OHLC Dataset of Bangladesh.csv (and the .zip)
+C. Optional, only if you have them: original TCB daily Excel files (for the S02 audit) -> inbox/tcb_originals/
+D. Optional later (stage S14, only if approved): BBS CPI PDFs; Bangladesh Bank exchange-rate Excel; ACLED export (needs Research access with your university email); GloFAS extract (needs a free Copernicus EWDS account); a hand-coded hartal/curfew calendar.
+Record for each: where you got it and the date you downloaded it (a line in inbox/SOURCES_LOG.txt is enough).
+Do not run pip on the work PC (Device Guard blocks it). Run everything in the Colab notebook.

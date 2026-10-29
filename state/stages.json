@@ -1,0 +1,347 @@
+{
+  "schema": "fpw-stages-v2",
+  "rules": "Agents may change only status, started_at, last_unit, units_done, output_sha256, git_commit, finished_at, notes. Never delete or reorder entries. Status: pending | in_progress | done | blocked | skipped (skipped only by a recorded user decision).",
+  "stages": [
+    {
+      "id": "S00",
+      "title": "Scaffold + intake",
+      "depends_on": [],
+      "outputs": [
+        "data/raw/MANIFEST.csv"
+      ],
+      "checks": [
+        "make check"
+      ],
+      "status": "pending",
+      "started_at": null,
+      "last_unit": null,
+      "units_done": 0,
+      "output_sha256": {},
+      "git_commit": null,
+      "finished_at": null,
+      "notes": ""
+    },
+    {
+      "id": "S01",
+      "title": "Rebuild TCB panel",
+      "depends_on": [
+        "S00"
+      ],
+      "outputs": [
+        "data/processed/tcb_v1.0_rebuilt.parquet",
+        "data/processed/corrections_proposed.csv",
+        "reports/tables/T1.csv"
+      ],
+      "checks": [
+        "pytest tests/test_s01_panel.py"
+      ],
+      "status": "pending",
+      "started_at": null,
+      "last_unit": null,
+      "units_done": 0,
+      "output_sha256": {},
+      "git_commit": null,
+      "finished_at": null,
+      "notes": ""
+    },
+    {
+      "id": "S02",
+      "title": "Audit (human-in-the-loop)",
+      "depends_on": [
+        "S01"
+      ],
+      "outputs": [
+        "reports/tables/T2.csv"
+      ],
+      "checks": [
+        "pytest tests/test_s02_audit.py"
+      ],
+      "status": "pending",
+      "started_at": null,
+      "last_unit": null,
+      "units_done": 0,
+      "output_sha256": {},
+      "git_commit": null,
+      "finished_at": null,
+      "notes": ""
+    },
+    {
+      "id": "S03",
+      "title": "External intake + cross-checks (WFP, AgriPriceBD, Pink Sheet, OHLC)",
+      "depends_on": [
+        "S01"
+      ],
+      "outputs": [
+        "data/processed/wfp_clean.parquet",
+        "data/processed/wfp_quarantine.csv",
+        "config/camp_markets.yaml",
+        "config/tcb_wfp_crosswalk.yaml",
+        "reports/tables/T3b.csv"
+      ],
+      "checks": [
+        "pytest tests/test_s03_external.py"
+      ],
+      "status": "pending",
+      "started_at": null,
+      "last_unit": null,
+      "units_done": 0,
+      "output_sha256": {},
+      "git_commit": null,
+      "finished_at": null,
+      "notes": ""
+    },
+    {
+      "id": "S04",
+      "title": "Driver panel (long table, slots, availability)",
+      "depends_on": [
+        "S01"
+      ],
+      "outputs": [
+        "data/processed/features.parquet",
+        "reports/tables/T3.csv"
+      ],
+      "checks": [
+        "pytest tests/test_s04_drivers.py tests/test_leakage.py tests/test_no_inf.py"
+      ],
+      "status": "pending",
+      "started_at": null,
+      "last_unit": null,
+      "units_done": 0,
+      "output_sha256": {},
+      "git_commit": null,
+      "finished_at": null,
+      "notes": ""
+    },
+    {
+      "id": "S05",
+      "title": "Reproduce baseline",
+      "depends_on": [
+        "S01"
+      ],
+      "outputs": [
+        "outputs/05_baseline/results_by_group_repro.csv"
+      ],
+      "checks": [
+        "pytest tests/test_s05_repro.py"
+      ],
+      "status": "pending",
+      "started_at": null,
+      "last_unit": null,
+      "units_done": 0,
+      "output_sha256": {},
+      "git_commit": null,
+      "finished_at": null,
+      "notes": ""
+    },
+    {
+      "id": "S06",
+      "title": "Core benchmark + driver groups one at a time",
+      "depends_on": [
+        "S04",
+        "S05"
+      ],
+      "outputs": [
+        "state/prereg_S06.yaml",
+        "reports/tables/T4.csv",
+        "reports/tables/T5.csv",
+        "reports/tables/T5b.csv"
+      ],
+      "checks": [
+        "pytest tests/test_s06_grid.py tests/test_seal.py"
+      ],
+      "status": "pending",
+      "started_at": null,
+      "last_unit": null,
+      "units_done": 0,
+      "output_sha256": {},
+      "git_commit": null,
+      "finished_at": null,
+      "notes": ""
+    },
+    {
+      "id": "S07",
+      "title": "Intervals and alerts",
+      "depends_on": [
+        "S06"
+      ],
+      "outputs": [
+        "state/prereg_S07.yaml",
+        "reports/tables/T6.csv",
+        "reports/tables/T7.csv",
+        "reports/tables/T8.csv"
+      ],
+      "checks": [
+        "pytest tests/test_s07_alerts.py tests/test_seal.py"
+      ],
+      "status": "pending",
+      "started_at": null,
+      "last_unit": null,
+      "units_done": 0,
+      "output_sha256": {},
+      "git_commit": null,
+      "finished_at": null,
+      "notes": ""
+    },
+    {
+      "id": "S08",
+      "title": "Locate (WFP monthly market module)",
+      "depends_on": [
+        "S03",
+        "S07"
+      ],
+      "outputs": [
+        "state/prereg_S08.yaml",
+        "reports/tables/T12.csv"
+      ],
+      "checks": [
+        "pytest tests/test_s08_locate.py"
+      ],
+      "status": "pending",
+      "started_at": null,
+      "last_unit": null,
+      "units_done": 0,
+      "output_sha256": {},
+      "git_commit": null,
+      "finished_at": null,
+      "notes": ""
+    },
+    {
+      "id": "S09",
+      "title": "Explanation ladder + event studies",
+      "depends_on": [
+        "S06",
+        "S07"
+      ],
+      "outputs": [
+        "reports/tables/T9.csv",
+        "reports/tables/T10.csv"
+      ],
+      "checks": [
+        "pytest tests/test_s09_explain.py tests/test_wording.py"
+      ],
+      "status": "pending",
+      "started_at": null,
+      "last_unit": null,
+      "units_done": 0,
+      "output_sha256": {},
+      "git_commit": null,
+      "finished_at": null,
+      "notes": ""
+    },
+    {
+      "id": "S10",
+      "title": "Robustness",
+      "depends_on": [
+        "S07",
+        "S08",
+        "S09"
+      ],
+      "outputs": [
+        "reports/tables/T11.csv"
+      ],
+      "checks": [
+        "pytest tests/test_s10_robust.py"
+      ],
+      "status": "pending",
+      "started_at": null,
+      "last_unit": null,
+      "units_done": 0,
+      "output_sha256": {},
+      "git_commit": null,
+      "finished_at": null,
+      "notes": ""
+    },
+    {
+      "id": "S11",
+      "title": "Results pack + clean re-run",
+      "depends_on": [
+        "S10"
+      ],
+      "outputs": [
+        "reports/RESULTS_REGISTER.md",
+        "reports/README.md"
+      ],
+      "checks": [
+        "make rerun-diff"
+      ],
+      "status": "pending",
+      "started_at": null,
+      "last_unit": null,
+      "units_done": 0,
+      "output_sha256": {},
+      "git_commit": null,
+      "finished_at": null,
+      "notes": ""
+    },
+    {
+      "id": "S12",
+      "title": "Optional: dashboard",
+      "depends_on": [
+        "S11"
+      ],
+      "outputs": [],
+      "checks": [],
+      "status": "skipped",
+      "started_at": null,
+      "last_unit": null,
+      "units_done": 0,
+      "output_sha256": {},
+      "git_commit": null,
+      "finished_at": null,
+      "notes": "enable via DECISIONS D1; externally visible: ask first"
+    },
+    {
+      "id": "S13",
+      "title": "Optional: extra foundation models",
+      "depends_on": [
+        "S06"
+      ],
+      "outputs": [],
+      "checks": [],
+      "status": "skipped",
+      "started_at": null,
+      "last_unit": null,
+      "units_done": 0,
+      "output_sha256": {},
+      "git_commit": null,
+      "finished_at": null,
+      "notes": "needs a new seal/prereg; enable via DECISIONS"
+    },
+    {
+      "id": "S14",
+      "title": "Optional: data-gap sources (CPI, BB FX, ACLED, GloFAS, hartal)",
+      "depends_on": [
+        "S04"
+      ],
+      "outputs": [],
+      "checks": [],
+      "status": "skipped",
+      "started_at": null,
+      "last_unit": null,
+      "units_done": 0,
+      "output_sha256": {},
+      "git_commit": null,
+      "finished_at": null,
+      "notes": "enable via DECISIONS D10; user downloads manually"
+    },
+    {
+      "id": "S99",
+      "title": "Independent review",
+      "depends_on": [
+        "S11"
+      ],
+      "outputs": [
+        "reports/REVIEW.md"
+      ],
+      "checks": [],
+      "status": "pending",
+      "started_at": null,
+      "last_unit": null,
+      "units_done": 0,
+      "output_sha256": {},
+      "git_commit": null,
+      "finished_at": null,
+      "notes": ""
+    }
+  ]
+}

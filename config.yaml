@@ -1,0 +1,40 @@
+# config.yaml
+project_root: /content/drive/MyDrive/FoodPriceWatch
+author: TO_CONFIRM                 # D2
+seed: 20261029
+time_index: report_day             # D6
+gap_2022: ["2022-03-12", "2022-12-31"]
+horizons: [1, 7, 14, 30]
+split:                             # D8
+  tune: ["2024-01-01", "2024-12-31"]
+  test: ["2025-01-01", "2026-10-24"]
+  test_unseal_limit: 1
+benchmark_origins: recover_from_baseline   # else monthly in test span (log deviation)
+alert_eval_start: "2023-06-01"
+refit_every: 30                    # report days; actual value recorded in markers
+availability:                      # days; applied before any join
+  monthly_world_after_month_end: 40
+  comtrade_after_month_start: 208  # was 75 (bug); confirm in S04
+  weather: 5
+  daily_asof: true
+carry_cap_days: {daily: 7, monthly: 45, events: 0}   # beyond availability; then missing (tune on 2024)
+comtrade_blank_from: 202605
+fx_splice: {npm_from: "2024-03-02", yahoo_scale: 1.0151}
+priority_items: []                 # D7 — exact item_ids from item_meta.csv
+driver_group_order: [G1_world_price, G2_brent, G3_export_measure, G4_fishing_ban, G5_weather]
+weather_max_features: 3
+alerts:                            # D4 — frozen into state/prereg_S07.yaml before scoring
+  rule: conformal_upper
+  level: 0.95
+  persistence: {k: 3, m: 5}
+  z_bands: {stress: 1, alert: 2, crisis: 3}
+  event_window_days: {before_onset: 14, after_peak: 30}
+locate:                            # D9 — frozen into state/prereg_S08.yaml
+  enabled: true
+  min_year: 2000                   # rows before this go to wfp_quarantine.csv
+  price_type: Retail
+  alert_z: 1
+  breadth_cutoffs: {national: 0.5, regional: 0.2}
+explanation: {ladder: [M0_core, M1_forecast_drivers, M2_explain_drivers], shap: true}   # D5
+banned_words: [hoarding, syndicate, collusion, manipulation, cartel]
+optional: {dashboard: false, extra_foundation_models: false, data_gap_sources: false}

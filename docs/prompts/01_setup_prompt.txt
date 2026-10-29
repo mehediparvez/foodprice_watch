@@ -1,0 +1,19 @@
+You are setting up the "Bangladesh Food Price Watch" master's PROJECT (not a thesis) so that an AI agent can run it end to end over many sessions and resume after any network or runtime drop without redoing finished work. This is the setup session only: do not run any modelling.
+
+Context (read, do not assume beyond it):
+- Aim: detect unexplained food price rises in Bangladesh, locate them (national vs one market), and explain them. Concretely: forecast Dhaka TCB daily retail prices h = 1/7/14/30 report days ahead; ask whether external drivers add value beyond persistence, and for which goods; raise alerts when a price leaves its expected range; use WFP monthly market prices to label flagged rises national, regional or local; split rises into "explained by measured cost drivers" and "not explained by measured cost drivers". Never describe residuals as hoarding, syndicates, collusion or manipulation.
+- Inputs: the 32 project files plus DATA_CARD.md and SOURCES_2026-10-26.md, and (if supplied) WFP, AgriPriceBD, Pink Sheet and OHLC files in inbox/external/.
+- Prior results to treat as provisional, never to cite as final: (a) baseline_results_by_group.csv, where no classical model beats naive; reproduce it, never overwrite it. (b) A one-driver-at-a-time test where matched drivers barely beat placebos (6.2% vs 6.0% significant); it used a buggy 75-day import availability rule, so it must be re-run.
+- Environment: one Google Colab notebook, one Google Drive folder. If you cannot execute code yourself, work in human-runner mode (AGENTS.md): emit one cell at a time and wait for the pasted output.
+
+Do these steps in order, and stop after step 10:
+1. Confirm the Drive root from config.yaml (default /content/drive/MyDrive/FoodPriceWatch) is mounted. Work only inside it.
+2. Create the layout: inbox/, data/raw/{project,external}/, data/interim/, data/processed/, outputs/, reports/{tables,figures}/, state/, config/, src/fpw/, src/stages/, tests/, logs/.
+3. Copy inbox/project/* to data/raw/project/ and inbox/external/* to data/raw/external/ unchanged. Write data/raw/MANIFEST.csv (path, source, retrieved_at from inbox/SOURCES_LOG.txt or "unknown", bytes, sha256). List expected-but-missing external files as MISSING. Never edit data/raw/ after this.
+4. Write AGENTS.md, CLAUDE.md, SPEC.md, state/stages.json, PROGRESS.md, DEVIATIONS.md, DECISIONS.md, config.yaml and config/item_driver_map.yaml exactly from the templates I give you, filling only the placeholders.
+5. Write src/fpw/checkpoint.py from the template, and `make check` (or `python -m fpw.check`) that validates stages.json against disk markers and runs tests/.
+6. Pin the environment (requirements.lock with exact versions, installed with pip inside Colab only) and set the global seed in config.yaml.
+7. `git init` in the project root; .gitignore data/ and outputs/ (commit their hashes, not the data); commit "S00: scaffold [checks pass]".
+8. Ask me every open decision D1-D10 in DECISIONS.md, in one message, and record my answers verbatim. Mark any I leave unanswered as PENDING. Do not choose for me.
+9. If D3 says an external dataset is not supplied, set the stages that need only it (S03 parts, S08) to "blocked: data not supplied". Do not mark them skipped unless I say so.
+10. Run `make check`, append PROGRESS.md, set S00 done only if checks pass, commit, and report using the session-end format.

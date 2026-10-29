@@ -1,0 +1,38 @@
+# config/item_driver_map.yaml — concrete version written in S04 (IMF codes checked against the file's description row)
+# Template codes corrected: POILSOY (does not exist) -> PSOIL; palm POILAPSP (crude-oil index!) -> PPOIL; milk TO_CONFIRM -> PMILK.
+G0_calendar: all
+G1_world_price:            # forecasting slot own_world_price (IMF, USD, monthly; month end + 40 d)
+  PSOIL: ["Soybean Oil - Bottled | 1 litre", "Soybean Oil - Bottled | 2 litre", "Soybean Oil - Bottled | 5 litre", "Soybean Oil - Loose | per litre"]
+  PPOIL: ["Palm Oil - Loose | per litre", "Super Palm Oil - Loose | per litre"]
+  PWHEAMT: ["Atta (Wheat Flour) - Loose | per kg", "Atta (Wheat Flour) - Packet | per kg (packet)", "Maida (Refined Flour) - Loose | per kg", "Maida (Refined Flour) - Packet | per kg (packet)"]
+  PRICENPQ: ["Rice - Coarse (Swarna/China IRRI) | per kg", "Rice - Medium (Paijam) | per kg", "Rice - Fine (Nazir/Miniket) | per kg"]
+  PMILK: ["Powdered Milk - Dano | 1 kg", "Powdered Milk - Diploma (New Zealand) | 1 kg", "Powdered Milk - Fresh | 1 kg", "Powdered Milk - Marks | 1 kg"]
+G2_brent: ["Powdered Milk - Dano | 1 kg", "Powdered Milk - Diploma (New Zealand) | 1 kg", "Powdered Milk - Fresh | 1 kg", "Powdered Milk - Marks | 1 kg", "Dried Chilli - Imported | per kg"]
+G3_export_measure: {onion: ["Onion - Local | per kg", "Onion - Imported | per kg"]}
+G4_fishing_ban: ["Hilsa Fish | per kg"]
+G5_weather: ["Potato | per kg", "Onion - Local | per kg", "Garlic - Local | per kg", "Ginger - Local | per kg", "Brinjal (Eggplant) | per kg", "Cucumber | per kg", "Green Chilli | per kg"]
+# Explanation-only (M2 / S09)
+E1_fx_strata: [imported_staple, administered, spice]
+E2_fuel: all               # diesel price as of report date
+E3_imports_hs:             # HS 0703 and 0910 mix items -> never assigned; 0713 and 0909 assigned to their item groups jointly
+  "0402": ["Powdered Milk - Dano | 1 kg", "Powdered Milk - Diploma (New Zealand) | 1 kg", "Powdered Milk - Fresh | 1 kg", "Powdered Milk - Marks | 1 kg"]
+  "0407": ["Egg - Farm | per hali (4 pcs)"]
+  "0701": ["Potato | per kg"]
+  "0713": ["Lentil (Masur) - Large Grain | per kg", "Lentil (Masur) - Medium Grain | per kg", "Chickpea (by quality) | per kg", "Anchor Dal (Split Pea) | per kg"]
+  "0804": ["Dates (Ordinary Quality) | per kg"]
+  "0904": ["Dried Chilli - Imported | per kg"]
+  "0906": ["Cinnamon | per kg"]
+  "0907": ["Clove | per kg"]
+  "0908": ["Cardamom (Small) | per kg"]
+  "0909": ["Cumin | per kg", "Coriander Seed | per kg"]
+  "1001": ["Atta (Wheat Flour) - Loose | per kg", "Atta (Wheat Flour) - Packet | per kg (packet)", "Maida (Refined Flour) - Loose | per kg", "Maida (Refined Flour) - Packet | per kg (packet)"]
+  "1006": ["Rice - Coarse (Swarna/China IRRI) | per kg", "Rice - Medium (Paijam) | per kg", "Rice - Fine (Nazir/Miniket) | per kg"]
+  "1507": ["Soybean Oil - Bottled | 1 litre", "Soybean Oil - Bottled | 2 litre", "Soybean Oil - Bottled | 5 litre", "Soybean Oil - Loose | per litre"]
+  "1511": ["Palm Oil - Loose | per litre", "Super Palm Oil - Loose | per litre"]
+  "1701": ["Sugar | per kg"]
+  "7204": ["MS Rod (40 Grade) | per metric ton", "MS Rod (60 Grade) | per metric ton"]
+E5_world_explain: {PSUGAISA: ["Sugar | per kg"], PCHANA: ["Chickpea (by quality) | per kg"]}
+E4_events:
+  exporter_items: {rice: ["Rice - Coarse (Swarna/China IRRI) | per kg", "Rice - Medium (Paijam) | per kg", "Rice - Fine (Nazir/Miniket) | per kg"], wheat: ["Atta (Wheat Flour) - Loose | per kg", "Atta (Wheat Flour) - Packet | per kg (packet)", "Maida (Refined Flour) - Loose | per kg", "Maida (Refined Flour) - Packet | per kg (packet)"], sugar: ["Sugar | per kg"], palm_oil: ["Palm Oil - Loose | per litre", "Super Palm Oil - Loose | per litre"]}
+  duty_items: {rice: ["Rice - Coarse (Swarna/China IRRI) | per kg", "Rice - Medium (Paijam) | per kg", "Rice - Fine (Nazir/Miniket) | per kg"], edible_oil: ["Soybean Oil - Bottled | 1 litre", "Soybean Oil - Bottled | 2 litre", "Soybean Oil - Bottled | 5 litre", "Soybean Oil - Loose | per litre", "Palm Oil - Loose | per litre", "Super Palm Oil - Loose | per litre"], sugar: ["Sugar | per kg"], onion: ["Onion - Local | per kg", "Onion - Imported | per kg"], potato: ["Potato | per kg"], egg: ["Egg - Farm | per hali (4 pcs)"], dates: ["Dates (Ordinary Quality) | per kg"]}
+dropped: [bb_remittance, bb_reserves, DEXCHUS, DEXINUS, DEXMAUS, wti, rivers, ifpri]

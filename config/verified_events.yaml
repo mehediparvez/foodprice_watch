@@ -1,0 +1,8 @@
+# Event dates verified against cited sources in S09 (others remain "reconstructed")
+india_onion_ban:
+  start: 2023-12-08
+  end: 2024-05-04
+  sources:
+    - "DGFT Notification 49 dated 07.12.2023 (onion export 'prohibited' 8 Dec 2023 - 31 Mar 2024): https://worldtradescanner.com/49-Ntfn-DGFT-07.12.2023.htm"
+    - "Ban extended until further orders (Mar 2024): https://www.business-standard.com/india-news/govt-extends-export-ban-on-onion-to-increase-domestic-availability-124032300369_1.html"
+    - "Ban lifted with MEP USD 550/t (May 2024): https://www.deccanherald.com/business/economy/govt-lifts-ban-on-onion-exports-imposes-minimum-export-price-of-usd-550tonne-3007636"

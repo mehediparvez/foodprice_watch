@@ -1,0 +1,9 @@
+data/
+outputs/
+inbox/
+logs/
+__pycache__/
+*.tmp
+.pytest_cache/
+.ipynb_checkpoints/
+*.parquet
