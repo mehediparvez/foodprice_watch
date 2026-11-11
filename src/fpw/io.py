@@ -1,10 +1,7 @@
 """Shared loaders (data rules 1-12). Raw files are read-only."""
-from pathlib import Path
 import pandas as pd, yaml
-ROOT = Path(__file__).resolve().parents[2]
-RAW = ROOT / "data/raw/project"
-PROC = ROOT / "data/processed"
-CFG = yaml.safe_load((ROOT / "config.yaml").read_text())
+from .paths import ROOT, RAW, PROC, CONFIG_YAML
+CFG = yaml.safe_load(CONFIG_YAML.read_text())
 def raw(name): return RAW / name
 def panel():
     import numpy as np
