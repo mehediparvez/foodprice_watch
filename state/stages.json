@@ -12,14 +12,17 @@
       "checks": [
         "make check"
       ],
-      "status": "pending",
+      "status": "done",
       "started_at": null,
       "last_unit": null,
       "units_done": 0,
-      "output_sha256": {},
+      "output_sha256": {
+        "data/raw/MANIFEST.csv": "f4debdddf6b9ecfaf422246332134dd082e400dfb0366aa14f2386bb2f7f43e2",
+        "DECISIONS.md": "d3c4189945d8538e00aa8210fc1d17b602b9516d522a40144e702bd3fef5e2a3"
+      },
       "git_commit": null,
-      "finished_at": null,
-      "notes": ""
+      "finished_at": "2026-11-11T19:10:12",
+      "notes": "intake 2026-11-11: 41 present, 0 missing (32 project + 9 external); S02 blocked (original TCB Excel files not supplied)"
     },
     {
       "id": "S01",
@@ -56,14 +59,14 @@
       "checks": [
         "pytest tests/test_s02_audit.py"
       ],
-      "status": "pending",
+      "status": "blocked",
       "started_at": null,
       "last_unit": null,
       "units_done": 0,
       "output_sha256": {},
       "git_commit": null,
       "finished_at": null,
-      "notes": ""
+      "notes": "blocked: original TCB files not supplied (inbox/tcb_originals/ empty)"
     },
     {
       "id": "S03",

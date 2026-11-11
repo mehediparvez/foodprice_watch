@@ -22,12 +22,12 @@ rows = []
 for name in EXPECTED:
     src, dst = inbox / "project" / name, raw / "project" / name
     if not dst.exists() and src.exists(): dst.parent.mkdir(parents=True, exist_ok=True); shutil.copy2(src, dst); print("copied", name)
-    rows.append(dict(path=str(dst.relative_to(ROOT)), source="project file", retrieved_at=log.get(name, "unknown"), bytes=dst.stat().st_size if dst.exists() else "",
+    rows.append(dict(path=dst.relative_to(ROOT).as_posix(), source="project file", retrieved_at=log.get(name, "unknown"), bytes=dst.stat().st_size if dst.exists() else "",
                      sha256=h(dst) if dst.exists() else "", status="present" if dst.exists() else "MISSING"))
 for name in EXTERNAL:
     src, dst = inbox / "external" / name, raw / "external" / name
     if not dst.exists() and src.exists(): dst.parent.mkdir(parents=True, exist_ok=True); shutil.copy2(src, dst); print("copied", name)
-    rows.append(dict(path=str(dst.relative_to(ROOT)), source="user-held external", retrieved_at=log.get(name, "unknown"), bytes=dst.stat().st_size if dst.exists() else "",
+    rows.append(dict(path=dst.relative_to(ROOT).as_posix(), source="user-held external", retrieved_at=log.get(name, "unknown"), bytes=dst.stat().st_size if dst.exists() else "",
                      sha256=h(dst) if dst.exists() else "", status="present" if dst.exists() else "MISSING"))
 orig = list((inbox / "tcb_originals").glob("*")) if (inbox / "tcb_originals").exists() else []
 man = raw / "MANIFEST.csv"; man.parent.mkdir(parents=True, exist_ok=True)

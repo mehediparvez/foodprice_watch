@@ -10,3 +10,5 @@ D8 Split: DEFAULT (agent, awaiting user confirmation) — tune on 2024; test Jan
 D9 Locate module: DEFAULT (agent, awaiting user confirmation) — enabled in principle, but BLOCKED (no WFP data).
 D10 Data-gap sources: S14 OFF; rivers/IFPRI dropped; India/Indonesia ban dates remain "reconstructed" unless verified; Sep 2023 caps: no dated sourced event supplied → not studied.
 Other: TCB licence/no-objection, OHLC novelty check, department deadlines, unseen PDFs (Learnathon-Project-Scan.pdf, Masters_Project_Ideas.pdf, Meeting-Prep-Notes.pdf): PENDING (do not block analysis).
+D11 Scope: 2026-11-11 user proposed stopping at RQ1 + RQ2 (benchmark vs naive; driver value beyond persistence). Status: PROPOSED, awaiting confirmation. If confirmed, S07-S10 are set to skipped by recorded user decision and S11 results pack is trimmed to RQ1/RQ2.
+D11 UPDATE 2026-11-11: narrowing to RQ1+RQ2 WITHDRAWN. Project = predict prices from external drivers, then flag rises not explained by measured cost drivers (RQ2 -> RQ3/RQ4). RQ5 (WFP locate) remains blocked/optional. Wording rule unchanged: never state "manipulation" as a finding.
