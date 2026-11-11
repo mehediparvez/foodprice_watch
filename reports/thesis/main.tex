@@ -1,7 +1,7 @@
 % Report in the format of docs/report_sample (BSc project report): title page, bonafide certificate, abstract,
 % acknowledgement, contents/figures/tables lists, five chapters, references.
 % Every number is transcribed from the results pack (reports/tables/*.csv, named in each caption); none is computed here.
-% Names, university, degree and dates are placeholders in [brackets]: set them once confirmed (config.yaml author = TO_CONFIRM).
+% Student, supervisor and university details were given by the user on 2026-11-12; the chairman of the exam committee and the submission date are still to be confirmed.
 % Items marked [VERIFY] must be checked against the original source before submission.
 \documentclass[12pt]{report}
 
@@ -10,7 +10,7 @@
 \usepackage{mathptmx}          % Times-like text; compiles with the default pdfLaTeX on Overleaf
 \usepackage{float}
 \usepackage{graphicx}
-\graphicspath{{images/}}
+\graphicspath{{images/}{./}}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{textcomp}
 \usepackage[table]{xcolor}
@@ -33,26 +33,26 @@
 \begin{document}
 \begin{titlepage}
 	\centering
-	% \includegraphics[height=4cm,width=4cm]{unilogo.png}   % add the university logo here
+	\begin{figure}[htbp]\centering\includegraphics[height=4cm,width=4cm]{unilogo.png}\end{figure}
 	\vspace{1cm}
-	{\huge\bfseries [University name] \par}
+	{\huge\bfseries Comilla University \par}
 	\vspace{0.5cm}
 	{\scshape\Large\bfseries Bangladesh Food Price Watch: Forecasting Dhaka Daily Retail Food Prices from External Drivers and Flagging Rises Not Explained by Measured Cost Drivers\par}
 	\vspace{0.45cm}
 	{\scshape\Large\bfseries A RESEARCH PROJECT REPORT \par}
 	{\scshape\Large\bfseries \textit{Submitted By}\par}
-	{\Large\textbf{[Author name]}}\par
-	{\Large{ID: [student ID]}}\par
+	{\Large\textbf{ROMJAN CHOWDHURY}}\par
+	{\Large{Roll No.: 20408024}}\par
 	\vspace{0.35cm}
-	{\large\textbf{\textit{In Partial Fulfillment of the Requirements for the Course [Research Project] of}}}\par
+	{\large\textbf{\textit{In Partial Fulfillment for the course Research Project of}}}\par
 	{\Large\textbf{MASTER OF SCIENCE\\}}
 	\vspace{0.1cm}
 	{\large\textbf{IN }}
-	{\large\textbf{[DEPARTMENT NAME]}\par}
+	{\large\textbf{DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING}\par}
 	\vspace{0.45cm}
-	{\Large\textbf{[UNIVERSITY NAME, CITY]}}\par
+	{\Large\textbf{COMILLA UNIVERSITY, CUMILLA-3506}}\par
 	\vspace{0.35cm}
-	{\Large\bfseries [Month Year]}\par
+	{\Large\bfseries November 2026}\par
 \end{titlepage}
 
 \newpage
@@ -61,7 +61,7 @@
 \end{center}
 \pagenumbering{gobble}
 \section*{}
-This is to certify that this research project entitled \textbf{``Bangladesh Food Price Watch: Forecasting Dhaka Daily Retail Food Prices from External Drivers and Flagging Rises Not Explained by Measured Cost Drivers''} is submitted by [Author name], [student ID], in partial fulfillment of the requirements for the degree of Master of Science in [Department], and was carried out under my supervision. This is the bonafide work.
+This is to certify that this research project entitled \textbf{``Bangladesh Food Price Watch: Forecasting Dhaka Daily Retail Food Prices from External Drivers and Flagging Rises Not Explained by Measured Cost Drivers''} is submitted by Romjan Chowdhury, Roll No. 20408024, in partial fulfillment of the requirements for the degree of Master of Science in Computer Science and Engineering, Comilla University, Cumilla, and was carried out under my supervision. This is the bonafide work.
 \\
 \\
 \begin{table}[h]
@@ -69,11 +69,11 @@ This is to certify that this research project entitled \textbf{``Bangladesh Food
 {Signature} & {Signature} \\
 \\
 \ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots & \ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots \\
-{[Name]} & {[Name]} \\
+{[Name]} & {Dr. Mahmudul Hasan} \\
 \textbf{Chairman of the Exam Committee} & \textbf{Supervisor} \\
-{[Designation]} & {[Designation]} \\
-{[Department]} & {[Department]} \\
-{[University, City]} & {[University, City]} \\
+{[Designation]} & {Associate Professor} \\
+{Department of CSE} & {Department of CSE} \\
+{Comilla University, Cumilla.} & {Comilla University, Cumilla.} \\
 \end{tabular}
 \end{table}
 
@@ -93,7 +93,7 @@ The study is a careful negative finding. It shows that persistence is a strong b
 \addcontentsline{toc}{chapter}{\numberline{}Acknowledgements}
 First and foremost, I would like to thank the Almighty Allah for His blessings that enabled me to complete this work.
 
-\noindent I would like to express my sincerest thanks to my supervisor [Supervisor name] for guidance on this research project, ``Bangladesh Food Price Watch''.
+\noindent I would like to express my sincerest thanks to my supervisor \textbf{Dr. Mahmudul Hasan}, Associate Professor, Department of Computer Science and Engineering, Comilla University, for his guidance on this research project, ``Bangladesh Food Price Watch''.
 
 \noindent I would also like to acknowledge the Trading Corporation of Bangladesh, whose published daily price reports are the source of the price data, and the providers of the open driver data used here: the International Monetary Fund, the Federal Reserve Bank of St.\ Louis, Open-Meteo and UN Comtrade.
 
