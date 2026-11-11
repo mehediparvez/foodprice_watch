@@ -1,5 +1,5 @@
 """S05 unit runner: one unit = one cutoff (all 7 classical models x 54 series). Resumable via markers."""
-import sys, time, hashlib, json
+import sys, os, time, hashlib, json
 sys.path.insert(0, "src")
 import warnings; warnings.filterwarnings("ignore")
 import pandas as pd
@@ -20,7 +20,7 @@ for i, c in enumerate(cuts):
     out = OUTD / f"cut_{c:04d}.parquet"
     def compute(c=c):
         long = y.loc[:c].stack().reset_index(); long.columns = ["ds", "unique_id", "y"]
-        sf = StatsForecast(models=[Naive(), SeasonalNaive(7), WindowAverage(7), RandomWalkWithDrift(), AutoARIMA(season_length=7), AutoETS(season_length=7), AutoTheta(season_length=7)], freq=1, n_jobs=2)
+        sf = StatsForecast(models=[Naive(), SeasonalNaive(7), WindowAverage(7), RandomWalkWithDrift(), AutoARIMA(season_length=7), AutoETS(season_length=7), AutoTheta(season_length=7)], freq=1, n_jobs=int(os.environ.get("FPW_THREADS", "2")))   # speed only; results do not depend on n_jobs
         fc = sf.forecast(df=long, h=30).rename(columns={"unique_id": "item_id", "RWD": "RWD"})
         fc["cutoff"] = c; fc["step"] = fc.ds - c; return fc.drop(columns="ds")
     t = time.time(); r = run_unit(out, compute, inputs={"cutoff": c}, config_hash=cfg_hash, seed=CFG["seed"])
