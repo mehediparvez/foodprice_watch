@@ -29,6 +29,8 @@ def test_named_scripts_and_tests_exist():
 
 def test_plan_orders_preregistration_before_the_test_is_unsealed():
     steps = runner.plan("S06")
-    assert steps.index(next(s for s in steps if "s06_prereg" in s)) < steps.index(next(s for s in steps if "s06_run" in s)) \
-        or (R / "state/prereg_S06.yaml").exists()
+    if (R / "state/prereg_S06.yaml").exists():          # already pre-registered: the plan must not rewrite it
+        assert not any("s06_prereg" in s for s in steps)
+    else:
+        assert next(i for i, s in enumerate(steps) if "s06_prereg" in s) < next(i for i, s in enumerate(steps) if "s06_run" in s)
     assert steps[-1].startswith("python src/stages/finalize.py S06")
