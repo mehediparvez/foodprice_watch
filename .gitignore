@@ -11,3 +11,4 @@ __pycache__/
 *.xlsx
 docs/reference/
 docs/report_sample/
+report_sample/
