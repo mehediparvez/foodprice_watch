@@ -1,0 +1,12 @@
+slot,role,source,frequency,availability,carry_cap,n_items,first_date,last_date
+G0 calendar,forecast+explain,"Ramadan/Eid, holidays, month, dow",daily (known ahead),0,n/a,,,
+G1 own_world_price,forecast+explain,"IMF PSOIL/PPOIL/PWHEAMT/PRICENPQ/PMILK (log USD, 3m change)",monthly,month end + 40 d,45 d,17.0,2021-05-17,2026-10-24
+G2 own_brent,forecast+explain,"FRED Brent (log, 30d change)",daily,as of date,7 d,5.0,2021-05-17,2026-10-24
+G3 own_export_measure,forecast+explain,India onion duty/MEP/ban (reconstructed),event,start date,coverage only,2.0,2022-05-06,2025-03-27
+G4 own_fishing_ban,forecast+explain,"hilsa 22-day, jatka, marine bans",event,announced dates,n/a,1.0,2021-05-17,2026-10-24
+G5 weather_1..3,forecast+explain,"chosen on 2024: wx_bd_tmax_7d, wx_bd_tmean_30d, wx_bd_rain_7d",daily,+5 d,7 d,7.0,2021-05-17,2026-10-24
+E1 fx,explain,"BDT/USD spliced (npm from 2024-03-02, Yahoo x1.0151 before)",daily,as of date,7 d,34.0,2021-05-17,2026-10-24
+E2 diesel,explain,diesel administered price,event,effective date,n/a,63.0,2021-05-17,2026-10-24
+E3 imports,explain,Comtrade mirror tonnes + unit value by HS,monthly,month start + 208 d,45 d,33.0,2021-07-28,2026-10-24
+E4 events,explain,"exporter measures (rice/wheat/sugar/palm), disruptions, cyclones/floods +14 d, duty cuts, interim regime",event,event dates,out of coverage = NaN,57.0,2023-10-28,2025-11-17
+E5 world (explain),explain,"IMF PSUGAISA (sugar), PCHANA (chickpea)",monthly,month end + 40 d,45 d,2.0,2021-05-17,2026-10-24

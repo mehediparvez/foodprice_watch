@@ -1,0 +1,23 @@
+check,value,note
+baseline (pre-registered conformal rule),0.5833333333333334,share of 12 events detected
+"placebo event dates (200 draws, same items and window lengths)",0.47875000000000006,95% range 0.25-0.67; p(placebo >= observed) = 0.285
+leave-one-event-out recall,0.5833333333333334,"min 0.55, max 0.64"
+events with confidence >= medium,0.6,5 events
+events with confidence >= high,1.0,1 events
+exclude events tied to reconstructed exporter dates (BD-S12),0.5454545454545454,BD-S13 kept: ban date verified
+alternative rule robust z>=1,0.6666666666666666,3-of-5 persistence
+alternative rule robust z>=2,0.5,3-of-5 persistence
+alternative rule robust z>=3,0.5,3-of-5 persistence
+"LightGBM core expanding window, h=1",1.0008296315184515,gmean relMAE vs naive (reference)
+"LightGBM core sliding 500-report-day window, h=1",1.0003124840238888,gmean relMAE vs naive
+"LightGBM core, ginger 2021 candidates removed from targets, h=1",1.000871517100614,gmean relMAE vs naive
+"LightGBM core expanding window, h=7",1.0152619887856904,gmean relMAE vs naive (reference)
+"LightGBM core sliding 500-report-day window, h=7",1.0225972857719798,gmean relMAE vs naive
+"LightGBM core, ginger 2021 candidates removed from targets, h=7",1.0154290468594935,gmean relMAE vs naive
+"LightGBM core expanding window, h=14",1.0284850110615598,gmean relMAE vs naive (reference)
+"LightGBM core sliding 500-report-day window, h=14",1.0369008568894875,gmean relMAE vs naive
+"LightGBM core, ginger 2021 candidates removed from targets, h=14",1.0213381448397807,gmean relMAE vs naive
+"LightGBM core expanding window, h=30",1.0847712022884608,gmean relMAE vs naive (reference)
+"LightGBM core sliding 500-report-day window, h=30",1.1342110526653297,gmean relMAE vs naive
+"LightGBM core, ginger 2021 candidates removed from targets, h=30",1.0822262297507983,gmean relMAE vs naive
+not run: weekly vs daily aggregation; Min/Max instead of Avg targets; RQ5 locate robustness,,logged in DEVIATIONS.md

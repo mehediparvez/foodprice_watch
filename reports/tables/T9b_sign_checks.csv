@@ -1,0 +1,10 @@
+feature,items,h,n,spearman_value_vs_shap,expected_sign,sign_ok
+e1_fx_ch30,"E1 strata (imported, administered, spice)",7,34643,-0.10967541865660548,+,False
+e1_fx_ch30,"E1 strata (imported, administered, spice)",14,34643,0.09023813764111384,+,True
+e1_fx_ch30,"E1 strata (imported, administered, spice)",30,34643,0.4836708547529657,+,True
+own_world_price_ch3,G1 items,7,18525,-0.1110245927144774,+,False
+own_world_price_ch3,G1 items,14,18525,-0.06139108695260298,+,False
+own_world_price_ch3,G1 items,30,18525,0.111137725033728,+,True
+e5_world_explain,"sugar, chickpea",7,2226,0.08964790409006387,+,True
+e5_world_explain,"sugar, chickpea",14,2226,-0.3161376964530221,+,False
+e5_world_explain,"sugar, chickpea",30,2226,0.2688475022560148,+,True

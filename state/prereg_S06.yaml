@@ -1,0 +1,160 @@
+stage: S06
+written: '2026-10-29'
+test_period:
+- '2025-01-01'
+- '2026-10-24'
+test_cutoffs:
+  first: 808
+  last: 1410
+  n: 87
+  spacing_report_days: 7
+refit_every_n_cutoffs: 8
+horizons_report_days:
+- 1
+- 7
+- 14
+- 30
+model:
+  type: LightGBM global direct multi-horizon, target log(y_t+h)-log(y_t), L1 objective
+  num_leaves: 15
+  n_estimators: 150
+  learning_rate: 0.05
+  tuned_on: 2024 validation cutoffs only
+  seed: 20261029
+core:
+  features: own lags/returns/deviation/volatility/reports-since-change, item & stratum
+    codes, G0 calendar
+driver_group_order:
+- G1
+- G2
+- G3
+- G4
+- G5
+group_columns:
+  G1:
+  - own_world_price
+  - own_world_price_ch3
+  G2:
+  - own_brent
+  - own_brent_ch30
+  G3:
+  - own_export_measure
+  G4:
+  - own_fishing_ban
+  G5:
+  - weather_1
+  - weather_2
+  - weather_3
+mapped_items:
+  G1:
+  - Atta (Wheat Flour) - Loose | per kg
+  - Atta (Wheat Flour) - Packet | per kg (packet)
+  - Maida (Refined Flour) - Loose | per kg
+  - Maida (Refined Flour) - Packet | per kg (packet)
+  - Palm Oil - Loose | per litre
+  - Powdered Milk - Dano | 1 kg
+  - Powdered Milk - Diploma (New Zealand) | 1 kg
+  - Powdered Milk - Fresh | 1 kg
+  - Powdered Milk - Marks | 1 kg
+  - Rice - Coarse (Swarna/China IRRI) | per kg
+  - Rice - Fine (Nazir/Miniket) | per kg
+  - Rice - Medium (Paijam) | per kg
+  - Soybean Oil - Bottled | 1 litre
+  - Soybean Oil - Bottled | 2 litre
+  - Soybean Oil - Bottled | 5 litre
+  - Soybean Oil - Loose | per litre
+  - Super Palm Oil - Loose | per litre
+  G2:
+  - Dried Chilli - Imported | per kg
+  - Powdered Milk - Dano | 1 kg
+  - Powdered Milk - Diploma (New Zealand) | 1 kg
+  - Powdered Milk - Fresh | 1 kg
+  - Powdered Milk - Marks | 1 kg
+  G3:
+  - Onion - Imported | per kg
+  - Onion - Local | per kg
+  G4:
+  - Hilsa Fish | per kg
+  G5:
+  - Garlic - Local | per kg
+  - Ginger - Local | per kg
+  - Onion - Local | per kg
+  - Potato | per kg
+test:
+  primary: 'per group: DM-HLN (core+group vs core) on each mapped long-history item
+    at each horizon; Holm across items within group x horizon; alpha 0.05 two-sided'
+  effect: delta relMAE (core+group minus core, both relative to naive) per item; mean
+    across mapped items with 2,000-draw item bootstrap 95% CI
+  placebo: same group columns copied from random mapped donor items onto an equal
+    number of random unmapped items (seed = config seed + group index); matched-minus-placebo
+    gap in mean delta relMAE with bootstrap CI
+  benchmark: 'RQ1: LightGBM core and core+all forecasting groups (M1) vs naive on
+    54 long-history series, gmean relMAE / win rate / DM-HLN+Holm per stratum, alongside
+    the S05 classical models'
+placebo_assignment:
+  G1:
+  - item: Dried Chilli - Local | per kg
+    donor: Atta (Wheat Flour) - Packet | per kg (packet)
+  - item: Rice Bran Oil - Bottled | 5 litre
+    donor: Soybean Oil - Bottled | 2 litre
+  - item: Garlic - Imported | per kg
+    donor: Rice - Fine (Nazir/Miniket) | per kg
+  - item: Lentil (Masur) - Small Grain | per kg
+    donor: Atta (Wheat Flour) - Loose | per kg
+  - item: Onion - Imported | per kg
+    donor: Palm Oil - Loose | per litre
+  - item: Potato | per kg
+    donor: Rice - Fine (Nazir/Miniket) | per kg
+  - item: MS Rod (40 Grade) | per metric ton
+    donor: Maida (Refined Flour) - Loose | per kg
+  - item: Coriander Seed | per kg
+    donor: Soybean Oil - Bottled | 1 litre
+  - item: Onion - Local | per kg
+    donor: Powdered Milk - Marks | 1 kg
+  - item: Garlic - Local | per kg
+    donor: Powdered Milk - Dano | 1 kg
+  - item: Chicken - Broiler | per kg
+    donor: Rice - Coarse (Swarna/China IRRI) | per kg
+  - item: Sugar | per kg
+    donor: Soybean Oil - Bottled | 1 litre
+  - item: MS Rod (60 Grade) | per metric ton
+    donor: Soybean Oil - Bottled | 1 litre
+  - item: Dates (Ordinary Quality) | per kg
+    donor: Powdered Milk - Fresh | 1 kg
+  - item: Chickpea (by quality) | per kg
+    donor: Powdered Milk - Marks | 1 kg
+  - item: Egg - Farm | per hali (4 pcs)
+    donor: Rice - Medium (Paijam) | per kg
+  - item: Mung Dal (by quality) | per kg
+    donor: Soybean Oil - Bottled | 2 litre
+  G2:
+  - item: Clove | per kg
+    donor: Powdered Milk - Marks | 1 kg
+  - item: Atta (Wheat Flour) - Packet | per kg (packet)
+    donor: Dried Chilli - Imported | per kg
+  - item: Mutton (Goat) | per kg
+    donor: Powdered Milk - Dano | 1 kg
+  - item: Lentil (Masur) - Large Grain | per kg
+    donor: Dried Chilli - Imported | per kg
+  - item: Rice - Coarse (Swarna/China IRRI) | per kg
+    donor: Powdered Milk - Marks | 1 kg
+  G3:
+  - item: Soybean Oil - Bottled | 2 litre
+    donor: Onion - Local | per kg
+  - item: Garlic - Local | per kg
+    donor: Onion - Imported | per kg
+  G4:
+  - item: Writing Paper (White) | per dista (24 sheets)
+    donor: Hilsa Fish | per kg
+  G5:
+  - item: Salt - Iodized (Packet) | per kg
+    donor: Potato | per kg
+  - item: Rice - Medium (Paijam) | per kg
+    donor: Garlic - Local | per kg
+  - item: Clove | per kg
+    donor: Garlic - Local | per kg
+  - item: Garlic - Imported | per kg
+    donor: Onion - Local | per kg
+deviations_known:
+- Chronos-2 not run (model hub blocked)
+- short-history items excluded from S06 (scored in S07 only)

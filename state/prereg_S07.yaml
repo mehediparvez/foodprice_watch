@@ -1,0 +1,52 @@
+stage: S07
+written: '2026-10-29'
+expected_price: real-time LightGBM M1 (core + mapped forecasting groups G1..G5), h
+  = 7 report days, refit every 30 report days, origins from 2023-06-01 (horizon h=7
+  so the bound for day t is set one week earlier)
+interval: per-item trailing conformal quantiles of past h=7 log residuals (window
+  120 report days, min 30), residuals usable only once their target date has passed
+primary_rule:
+  name: conformal_upper
+  level: 0.975
+  persistence: 3 of 5 report days
+  fa_target_per_item_year: 2.0
+  fa_2024_by_level:
+    0.9: 3.3241421568627443
+    0.95: 2.1139705882352935
+    0.975: 1.8688725490196074
+    0.99: 1.6237745098039211
+secondary_rule:
+  name: robust_z_ladder
+  z: (resid - trailing median) / max(1.4826*MAD, 0.01)
+  bands:
+    stress: 1
+    alert: 2
+    crisis: 3
+  persistence: 3 of 5
+  headline_band: alert (z>=2)
+baselines:
+  ALPS_style: 'per item: OLS log price on linear trend + month dummies, expanding
+    (real-time) refit monthly; z = residual / residual sd; alert z>=1, crisis z>=2;
+    3-of-5 persistence on daily data'
+  IFPA_style: 'monthly means; IFPA = 0.4*z(CQGR) + 0.6*z(CAGR), z standardized over
+    each item''s expanding history (all months pooled: too few years for calendar-month
+    standardization); abnormal >= 1; flag applies from month end'
+event_scoring:
+  events: 12 in-window shocks (16 event-product rows) from shock_events.csv
+  window_days:
+    before_onset: 14
+    after_peak: 30
+  detected: an alert episode starts inside the window
+  lead_days: news_peak minus first alert date in window (calendar and report days)
+  periods:
+    in_sample_for_threshold: 2023-06-01..2024-12-31
+    clean_test: 2025-01-01..2026-10-24
+  false_alarms: alert episodes starting outside every labelled window of that item,
+    per item-year of non-event report days (250 report days = 1 year)
+  pr_curve: vary conformal level and z band; precision = share of alert episodes inside
+    labelled windows, among items with at least one labelled event
+calibration:
+  coverage: share of residuals <= upper bound (q950) and inside [q050, q950], per
+    stratum; pinball at 0.9/0.95; Winkler 90%; Kupiec on non-event periods for q950
+caveat: labels cover only 12 episodes; many real rises are unlabelled, so 'false alarm'
+  means 'outside a labelled window'

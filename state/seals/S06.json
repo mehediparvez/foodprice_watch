@@ -1,0 +1,9 @@
+{
+  "unsealings": [
+    {
+      "prereg_sha256": "d6a143e93295876e921de8b3bb9368f784b2785603679e98680ccba4f629df52",
+      "commit": "3830190f45817de3e5f6d85a68e5882abdbb91d9",
+      "at": "2026-11-11T16:03:00"
+    }
+  ]
+}

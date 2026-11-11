@@ -1,0 +1,13 @@
+event_id,A_conf,A_z2,A_z1,A_z3,A_alps1,A_alps2,A_ifpa,A_ifpa05,period,confidence
+BD-S09,False,False,False,False,False,False,False,False,in_sample_for_threshold,low
+BD-S11,False,False,False,False,True,True,False,True,in_sample_for_threshold,low
+BD-S12,True,False,False,False,True,True,False,True,in_sample_for_threshold,low
+BD-S13,True,True,True,True,True,True,True,True,in_sample_for_threshold,medium
+BD-S14,True,True,True,True,True,False,False,False,in_sample_for_threshold,low
+BD-S15,True,True,True,True,True,True,True,True,in_sample_for_threshold,high
+BD-S16,True,True,True,True,False,False,False,False,in_sample_for_threshold,low
+BD-S17,False,False,True,False,False,False,False,True,in_sample_for_threshold,medium
+BD-S19,False,False,True,False,False,False,False,False,in_sample_for_threshold,low
+BD-S20,False,False,False,False,False,False,False,False,in_sample_for_threshold,medium
+BD-S21,True,True,True,True,True,False,False,True,in_sample_for_threshold,medium
+BD-S22,True,True,True,True,False,False,False,False,clean_test,low

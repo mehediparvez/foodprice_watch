@@ -1,0 +1,61 @@
+{
+  "grid": [
+    {
+      "num_leaves": 15,
+      "n_estimators": 150,
+      "gmean_relMAE_h1": 1.0120362944535228,
+      "gmean_relMAE_h7": 1.031648539979997,
+      "gmean_relMAE_h14": 1.0712962775899848,
+      "gmean_relMAE_h30": 1.1535179565074607,
+      "mean": 1.0671247671327413
+    },
+    {
+      "num_leaves": 15,
+      "n_estimators": 300,
+      "gmean_relMAE_h1": 1.012159401741895,
+      "gmean_relMAE_h7": 1.0346921264886662,
+      "gmean_relMAE_h14": 1.1235507225094026,
+      "gmean_relMAE_h30": 1.238488054754057,
+      "mean": 1.1022225763735052
+    },
+    {
+      "num_leaves": 31,
+      "n_estimators": 150,
+      "gmean_relMAE_h1": 1.00673993259908,
+      "gmean_relMAE_h7": 1.0545155546809535,
+      "gmean_relMAE_h14": 1.1347739444314495,
+      "gmean_relMAE_h30": 1.2409044404044045,
+      "mean": 1.1092334680289717
+    },
+    {
+      "num_leaves": 31,
+      "n_estimators": 300,
+      "gmean_relMAE_h1": 1.0067399420076182,
+      "gmean_relMAE_h7": 1.0794794535946706,
+      "gmean_relMAE_h14": 1.1912807361684898,
+      "gmean_relMAE_h30": 1.3246273405986084,
+      "mean": 1.1505318680923466
+    }
+  ],
+  "best": {
+    "num_leaves": 15,
+    "n_estimators": 150,
+    "gmean_relMAE_h1": 1.0120362944535228,
+    "gmean_relMAE_h7": 1.031648539979997,
+    "gmean_relMAE_h14": 1.0712962775899848,
+    "gmean_relMAE_h30": 1.1535179565074607,
+    "mean": 1.0671247671327413
+  },
+  "tuning_cutoffs": [
+    479,
+    773
+  ],
+  "refits": [
+    479,
+    535,
+    591,
+    647,
+    703,
+    759
+  ]
+}
