@@ -1,9 +1,7 @@
 """Ledger helpers: update only status fields of state/stages.json (atomic)."""
 import json, os, time
-from pathlib import Path
 from .checkpoint import sha256
-ROOT = Path(__file__).resolve().parents[2]
-LEDGER = ROOT / "state/stages.json"
+from .paths import ROOT, LEDGER
 ALLOWED = {"status","started_at","last_unit","units_done","output_sha256","git_commit","finished_at","notes"}
 def load(): return json.loads(LEDGER.read_text())
 def save(d):

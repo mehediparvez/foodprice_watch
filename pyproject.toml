@@ -1,0 +1,11 @@
+[project]
+name = "fpw"
+version = "0.1.0"
+description = "Bangladesh Food Price Watch: forecast Dhaka retail food prices from external drivers and flag rises not explained by measured cost drivers"
+requires-python = ">=3.10"
+# Runtime dependencies are pinned for Colab in requirements-colab.txt (numpy/pandas/scipy come from Colab itself).
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]

@@ -22,10 +22,11 @@ Master's project (not a thesis): detect and explain unexplained food price rises
 
 ## Layout
 
-- `src/fpw/` shared library (loaders, availability lags, checkpoints, benchmark metrics, alert rules)
+- `src/fpw/` shared library (paths, loaders, availability lags, checkpoints, benchmark metrics, alert rules, stage registry and runner)
 - `src/stages/sNN*.py` one script per stage step; `src/stages/finalize.py` runs a stage's tests, marks it done, commits
 - `tests/` acceptance tests (panel invariants, leakage, no ±inf, seals, wording, …)
 - `config/` settings, item→driver map, verified event dates
+- `tools/` user-run data collection helpers (not part of the pipeline); `docs/ARCHITECTURE.md` explains the layers
 - `state/` ledger (`stages.json`), pre-registrations and seals (written during runs)
 - `AGENTS.md`, `SPEC.md`, `DECISIONS.md`, `DEVIATIONS.md`, `PROGRESS.md`: the agent instruction set and the run log
 - `docs/` full instruction set, data inventory, prompts, reference notes
