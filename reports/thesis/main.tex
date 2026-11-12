@@ -69,9 +69,9 @@ This is to certify that this research project entitled \textbf{``Bangladesh Food
 {Signature} & {Signature} \\
 \\
 \ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots & \ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots \\
-{[Name]} & {Dr. Mahmudul Hasan} \\
+{Dr. Mahmudul Hasan} & {Dr. Mahmudul Hasan} \\
 \textbf{Chairman of the Exam Committee} & \textbf{Supervisor} \\
-{[Designation]} & {Associate Professor} \\
+{Associate Professor} & {Associate Professor} \\
 {Department of CSE} & {Department of CSE} \\
 {Comilla University, Cumilla.} & {Comilla University, Cumilla.} \\
 \end{tabular}
@@ -173,10 +173,11 @@ E1 exchange rate & BDT/USD, spliced series & daily & as of date \\
 E2 diesel & administered price & event & effective date \\
 E3 imports & Comtrade mirror data by HS code & monthly & month start + 208 d \\
 E4 events & exporter measures, disruptions, floods, duty cuts & event & event dates \\
+E5 world price (explain) & IMF: sugar, chickpea & monthly & month end + 40 d \\
 \bottomrule
 \end{tabular}
 \end{table}
-Slots G1--G5 enter the forecasting models; E1--E5 are used only in the explanation step. Documented price shocks come from a table of 22 episodes, 12 of which fall inside the data.
+Slots G1--G5 enter the forecasting models; E1--E5 are used only in the explanation step. Calendar features (month, day of week, days to Ramadan and to the two Eids, and public holidays in the next seven days) are known in advance and are part of the core model. Documented price shocks come from a table of 22 episodes, 12 of which fall inside the data.
 
 \section{Data Preprocessing, Integration and Quality Assessment}
 \subsection{Price Panel}
@@ -185,13 +186,34 @@ Nine series with short histories, for example green chilli and cucumber, which s
 \subsection{Driver Alignment and Leakage Control}
 Every driver is joined on the date it became available, not the date it describes. A driver with no mapped value stays empty with a \texttt{has\_} flag, never zero. Import data are stamped as available 208 days after the start of the month; an earlier 75-day stamp was a bug, and the leakage test fails if it is used.
 
+\subsection{Tools}
+Table~\ref{tab:tools} lists the software used and the reason for each choice.
+\begin{table}[H]\centering\small
+\caption{Tools used (versions: state/env\_versions.json).}\label{tab:tools}
+\begin{tabular}{p{4.2cm}p{9.2cm}}
+\toprule
+Tool & Use and reason \\ \midrule
+Python standard library & downloading the TCB Excel reports and merging new report days; runs on any PC with nothing to install \\
+pandas, NumPy, Parquet (pyarrow) & the price panel and driver joins; Parquet keeps column types and is fast to reload \\
+statsforecast & the seven classical models; fast automatic ARIMA, ETS and Theta over many series \\
+LightGBM & the machine-learning model; handles missing drivers, step-like prices and mixed items in one model \\
+SHAP & splits each LightGBM forecast into contributions by feature for the explanation step \\
+SciPy & Diebold--Mariano, Kupiec and placebo tests \\
+pytest & automatic checks: leakage, the 2022 gap, the test seal and wording \\
+Google Colab and Drive & free compute; every unit is saved with a marker file, so a dropped session resumes instead of restarting \\
+Git and GitHub & version history; every reported number is tied to a script and a commit \\
+\LaTeX{} (Overleaf) & this report \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \subsection{Baseline Reproduction}
 The earlier classical baseline was re-run. Naive matches exactly and AutoETS is within 0.010 at every horizon. AutoTheta (horizon 1, +0.273), AutoARIMA (horizons 1 to 30, +0.027 to +0.063), WindowAverage (horizon 1, +0.025) and SeasonalNaive (horizon 1, +0.021) differ by more than the 0.02 tolerance. The original settings were never recorded, so the likely causes (gap handling in the training input and automatic model selection) are hypotheses, and nothing was tuned to close the gap.
 
 \chapter{Model Development and Results}
 
 \section{Model Development Framework}
-Seven classical models were re-run (Naive, SeasonalNaive, WindowAverage, random walk with drift, AutoARIMA, AutoETS, AutoTheta) over 87 forecast origins, together with LightGBM. The core LightGBM model uses price history and calendar features; driver groups are added one at a time in the pre-registered order on their mapped items only. Each driver is compared with the same group assigned to unmapped items (placebo, fixed seed). Metrics are the geometric mean of relative MAE against naive, MASE and win rate; tests are Diebold--Mariano with the Harvey--Leybourne--Newbold correction and Holm adjustment at $\alpha=0.05$.
+Seven classical models were re-run (Naive, SeasonalNaive, WindowAverage, random walk with drift, AutoARIMA, AutoETS, AutoTheta) over 87 forecast origins, together with LightGBM. The core LightGBM model is one global model across items that predicts the log price change over the horizon. Its inputs are price history (the latest price, changes over 1, 7, 14 and 30 report days, the deviation from the 30-report mean, 30-report volatility and the number of reports since the last change) and the calendar features, so seasonal and festival effects are available to it; driver groups are added one at a time in the pre-registered order on their mapped items only. Each driver is compared with the same group assigned to unmapped items (placebo, fixed seed). Metrics are the geometric mean of relative MAE against naive, MASE and win rate; tests are Diebold--Mariano with the Harvey--Leybourne--Newbold correction and Holm adjustment at $\alpha=0.05$.
 
 \section{RQ1: Benchmark against Naive}
 \begin{table}[H]\centering\small
@@ -234,7 +256,7 @@ World prices (G1) made forecasts slightly worse at horizons 7 to 30, with a matc
 \begin{figure}[H]\centering\includegraphics[width=0.85\textwidth]{F4_driver_value.png}\caption{Driver value, matched vs.\ placebo (reports/figures/F4).}\label{fig:rq2}\end{figure}
 
 \section{RQ3: Alerts}
-The pre-registered rule has an upper 95\% bound coverage of 0.921 against a nominal 0.95, and the Kupiec test rejects correct coverage on non-event periods (Table~\ref{tab:cov}).
+The expected price is the real-time LightGBM forecast seven report days ahead (core plus forecasting drivers). The upper bound adds the 0.975 quantile of the same item's last 120 forecast errors (at least 30), using only errors already observed, and an alert fires when the price is above the bound on three of the last five report days. The level 0.975 was fixed on 2024 non-event days. The pre-registered rule has an upper 95\% bound coverage of 0.921 against a nominal 0.95, and the Kupiec test rejects correct coverage on non-event periods (Table~\ref{tab:cov}).
 \begin{table}[H]\centering\small
 \caption{Interval coverage, all items (source: reports/tables/T6.csv).}\label{tab:cov}
 \begin{tabular}{lrrr}
@@ -294,7 +316,7 @@ On TCB daily retail prices, nothing beat the naive forecast in the all-items sum
 \item The audit was not done because the original TCB Excel files were not supplied, so the transcription error rate is unknown.
 \item The WFP intake and locate stages were not built, so RQ5 and the cross-checks with WFP, AgriPriceBD, the Pink Sheet and the OHLC dataset were not done.
 \item Chronos-2 and other foundation models were not implemented.
-\item The classical baseline reproduction differs from the earlier file for several models (Section 3.3.3); the cause is unconfirmed.
+\item The classical baseline reproduction differs from the earlier file for several models (Section 3.3.4); the cause is unconfirmed.
 \item Only 12 shock episodes fall in the data, 11 of them in periods used to set the threshold; the clean test contains one.
 \item India's exporter dates are partly reconstructed from news reports, and the 2022 reporting gap hides the 2022 fuel and edible-oil episodes.
 \item TCB publishes no reuse terms; a no-objection should be requested before releasing the data.
